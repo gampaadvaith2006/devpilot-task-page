@@ -1,0 +1,5 @@
+import { readFileSync, writeFileSync } from 'node:fs';
+const page=readFileSync(new URL('./index.html',import.meta.url),'utf8');
+const todo=readFileSync(new URL('./todo-app.html',import.meta.url),'utf8');
+const source=`const page=${JSON.stringify(page)};\nconst todo=${JSON.stringify(todo)};\nexport default {fetch(request){ const path=new URL(request.url).pathname; const isTodo=path==='/todo-app.html'; if(!isTodo && path!=='/' && path!=='/index.html' && path!=='/app/tasks/cmviopllz0001lonkdx5l84gy') return new Response('Not found',{status:404}); if(!['GET','HEAD'].includes(request.method))return new Response('Method not allowed',{status:405}); return new Response(request.method==='HEAD'?null:(isTodo?todo:page),{headers:{'content-type':'text/html; charset=utf-8','x-content-type-options':'nosniff','referrer-policy':'no-referrer','content-security-policy':"default-src 'self'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; frame-src 'self'; object-src 'none'; base-uri 'none'"}}); }};\n`;
+writeFileSync(new URL('./worker.mjs',import.meta.url),source);
